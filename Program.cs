@@ -44,7 +44,7 @@ async IAsyncEnumerable<string> GetImageUrls(string hashtag)
     await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
     await using var page = await browser.NewPageAsync();
     await page.GoToAsync($"https://www.instagram.com/explore/tags/{hashtag}/", WaitUntilNavigation.Networkidle0);
-    await page.WaitForTimeoutAsync(5000);
+    await page.WaitForXPathAsync("//img");
 
     var images = await page.XPathAsync("//img");
     foreach (var image in images)
