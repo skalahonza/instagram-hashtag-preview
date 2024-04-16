@@ -1,0 +1,4 @@
+@Instagram_HostAddress = http://localhost:5101
+
+GET {{Instagram_HostAddress}}/photos/csharp
+Accept: application/json
