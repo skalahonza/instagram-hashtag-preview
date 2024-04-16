@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.OutputCaching;
 using PuppeteerSharp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +22,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseOutputCache();
 
