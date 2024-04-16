@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.OutputCaching;
 using PuppeteerSharp;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddOutputCache();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -21,13 +24,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseOutputCache();
 
 app.MapGet("/photos/{hashtag}", async (string hashtag) =>
     {
         var urls = await GetImageUrls(hashtag).ToListAsync();
         return urls;
     })
-    .WithName("GetWeatherForecast")
+    .WithName("GetImageUrls")
+    .CacheOutput(x => x.Expire(TimeSpan.FromMinutes(1)))
     .WithOpenApi();
 
 app.Run();
