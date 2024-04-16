@@ -21,9 +21,9 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Instagram/Instagram.csproj", "Instagram/"]
+COPY ["Instagram.csproj", "Instagram/"]
 RUN dotnet restore "Instagram/Instagram.csproj"
-COPY . .
+COPY [".", "Instagram/"]
 WORKDIR "/src/Instagram"
 RUN dotnet build "Instagram.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
